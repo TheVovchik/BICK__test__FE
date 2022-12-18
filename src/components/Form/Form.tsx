@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { getContact, patchContact, postContact } from '../../API/contacts';
 import { Contact, ContactWithId, Multi } from '../../types/Contact';
 import { MultiField } from '../../types/MultiFieldEnum';
@@ -33,7 +33,7 @@ export const Form: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const location = useLocation();
-
+  const navigate = useNavigate();
   const loadContact = async (contactId: string) => {
     setIsLoading(true);
 
@@ -258,7 +258,7 @@ export const Form: FC = () => {
         await postContact(newContact);
       }
 
-      window.location.href = 'https://thevovchik.github.io/BICK__test__FE/';
+      navigate('/home');
 
       return;
     }
