@@ -1,0 +1,1 @@
+export const AtLeastOneLetter = /^.*[\d\w]+.*$/

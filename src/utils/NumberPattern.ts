@@ -1,0 +1,1 @@
+export const NumberPattern = /^\d{10}$/;
