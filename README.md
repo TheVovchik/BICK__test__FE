@@ -1,46 +1,41 @@
-# Getting Started with Create React App
+# Test task for the position of React JS developer
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+> DEMO
+<br>
 
-In the project directory, you can run:
+[PhoneBook](https://thevovchik.github.io/BICK__test__FE/)
 
-### `npm start`
+> LINKS
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  [FE REPO](https://github.com/TheVovchik/BICK__test__FE)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  [BE REPO](https://github.com/TheVovchik/BICK__test__BE)
 
-### `npm test`
+> ### Technology stack
+  <br>
+  
+  FE - HTML, CSS, JS/TS, React, React Router, Bulma
+  
+  BE - Node, Express, Sequilize
+  
+  BE db on Planetscale
+  
+  BE API on onrender.com
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  <br>
 
-### `npm run build`
+> ### Phone book
+  <br>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This is a single page application, it includes the contacts table, the button to add new contact. When user clicks on the button it show the form to fill in order to create new contact.<br>
+A contact is composed of: Name, last name, address, city, country, emails and phone
+numbers. Also an edit and delete button present per contact. When user clicks the edit button, the user will see a form with contact information. When user clicks the delete button, the contact remove from the phone book permanently.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> ### Add/Edit contact form
+  <br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+When the user clicks on add button for email or number, a new input field must appear or when the user clicks on remove button for email or number, a input field must disappear.<br>
+The "Save" button store the contact's information in the phone book.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
