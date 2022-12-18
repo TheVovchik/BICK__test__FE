@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/BICK__test__FE/static/css/main.25ace30c.css",
+    "main.js": "/BICK__test__FE/static/js/main.fec7c7b4.js",
+    "index.html": "/BICK__test__FE/index.html",
+    "main.25ace30c.css.map": "/BICK__test__FE/static/css/main.25ace30c.css.map",
+    "main.fec7c7b4.js.map": "/BICK__test__FE/static/js/main.fec7c7b4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.25ace30c.css",
+    "static/js/main.fec7c7b4.js"
+  ]
+}
