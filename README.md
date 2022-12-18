@@ -3,7 +3,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 > DEMO
-<br>
 
 [PhoneBook](https://thevovchik.github.io/BICK__test__FE/)
 
