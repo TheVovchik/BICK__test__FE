@@ -257,8 +257,8 @@ export const Form: FC = () => {
       } else {
         await postContact(newContact);
       }
-  
-      window.location.href = '/';
+
+      window.location.href = 'https://thevovchik.github.io/BICK__test__FE/';
 
       return;
     }
