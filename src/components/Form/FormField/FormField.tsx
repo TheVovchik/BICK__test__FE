@@ -1,4 +1,4 @@
-import { FC, useState} from 'react';
+import { FC, memo, useCallback, useState} from 'react';
 import { SingleField } from '../../../types/SingleFieldEnum';
 import { AtLeastOneLetter } from '../../../utils/AtLeastOneLetter';
 
@@ -13,20 +13,24 @@ type Props = {
   ) => void,
 };
 
-export const FormField: FC<Props> = ({
+export const FormField: FC<Props> = memo(({
   type, placeholder, label, value, handleInputChange,
 }) => {
   const [isEmpty, setIsEmpty] = useState(false);
 
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInput = useCallback((
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const inputedValue = event.target.value;
 
     handleInputChange(inputedValue, type);
     setIsEmpty(false);
-  }
-  const handleBlur = () => {
+  }, []);
+
+  const handleBlur = useCallback(() => {
     setIsEmpty(!AtLeastOneLetter.test(value));
-  };
+  }, [value]);
+
   return (
     <div className="field">
         <label className="label">{ label }</label>
@@ -45,5 +49,4 @@ export const FormField: FC<Props> = ({
         </div>
       </div>
   )
-}
-
+});

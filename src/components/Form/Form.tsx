@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { getContact, patchContact, postContact } from '../../API/contacts';
 import { Contact, ContactWithId, Multi } from '../../types/Contact';
@@ -18,7 +18,7 @@ import { PageNotFound } from '../PageNotFound';
 const emptyObject = {
   id: '1',
   value: '',
-}
+};
 
 export const Form: FC = () => {
   const [contact, setContact] = useState<ContactWithId | null>(null)
@@ -34,7 +34,8 @@ export const Form: FC = () => {
   const [isError, setIsError] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const loadContact = async (contactId: string) => {
+
+  const loadContact = useCallback(async (contactId: string) => {
     setIsLoading(true);
 
     try {
@@ -45,7 +46,7 @@ export const Form: FC = () => {
     } catch (error) {
       setIsError(true);
     }
-  }
+  }, []);
 
   useEffect(() => {
     const contactId = location.pathname.slice(1).split('/')[1];
@@ -67,7 +68,7 @@ export const Form: FC = () => {
     }
   }, [contact])
 
-  const handleInputChange = (
+  const handleInputChange = useCallback((
     value: string,
     field: SingleField,
   ) => {
@@ -97,9 +98,9 @@ export const Form: FC = () => {
     }
 
     setIsFormCorrect(false);
-  };
+  }, []);
 
-  const handleMultiFieldInput = (
+  const handleMultiFieldInput = useCallback((
     field: MultiField, newValue: string, id: string
   ) => {
     switch (field) {
@@ -142,9 +143,9 @@ export const Form: FC = () => {
     }
 
     setIsFormCorrect(false);
-  };
+  }, []);
 
-  const handleInputFieldAdd = (field: MultiField) => {
+  const handleInputFieldAdd = useCallback((field: MultiField) => {
     switch (field) {
       case MultiField.EMAIL: {
         setEmails(curr => {
@@ -179,9 +180,9 @@ export const Form: FC = () => {
       default:
         return;
     }
-  }
+  }, [])
 
-  const handleInputFieldRemove = (
+  const handleInputFieldRemove = useCallback((
     field: MultiField, removedId: string,
   ) => {
     switch (field) {
@@ -206,9 +207,9 @@ export const Form: FC = () => {
       default:
         return;
     }
-  };
+  }, []);
 
-  const checkForm = (data: Contact) => {
+  const checkForm = useCallback((data: Contact) => {
     return Object.entries(data)
       .map(([field, values]) => {
         switch (field) {
@@ -234,9 +235,11 @@ export const Form: FC = () => {
         } 
       })
       .every((value: boolean) => value);
-  }
+  }, []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = useCallback(async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault();
 
     const newContact = {
@@ -264,7 +267,16 @@ export const Form: FC = () => {
     }
 
     setIsFormCorrect(true);
-  };
+  },
+  [
+    name,
+    lastName,
+    address,
+    city,
+    country,
+    emails,
+    numbers,
+  ]);
 
   return (
     <>
@@ -323,6 +335,7 @@ export const Form: FC = () => {
           <label className="label">Email:</label>
           {emails.map((email, index) => {
             const isLast = index === emails.length - 1;
+            const isOne = emails.length === 1;
 
             return (
               <MultipleField
@@ -331,6 +344,7 @@ export const Form: FC = () => {
                 type='email'
                 placeholder='Enter Email'
                 isLast={isLast}
+                isOne={isOne}
                 data={email}
                 handleInputFieldRemove={handleInputFieldRemove}
                 handleInputFieldAdd={handleInputFieldAdd}
@@ -342,6 +356,7 @@ export const Form: FC = () => {
           <label className="label">Number:</label>
           {numbers.map((number, index) => {
             const isLast = index === numbers.length - 1;
+            const isOne = numbers.length === 1;
 
             return (
               <MultipleField
@@ -350,6 +365,7 @@ export const Form: FC = () => {
                 type='text'
                 placeholder='Enter Number'
                 isLast={isLast}
+                isOne={isOne}
                 data={number}
                 handleInputFieldRemove={handleInputFieldRemove}
                 handleInputFieldAdd={handleInputFieldAdd}

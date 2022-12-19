@@ -1,4 +1,5 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, memo, useCallback } from 'react';
+import classNames from 'classnames';
 import { Multi } from '../../../types/Contact';
 import { MultiField } from '../../../types/MultiFieldEnum';
 import { EmailPattern } from '../../../utils/EmailPattern';
@@ -10,6 +11,7 @@ type Props = {
   type: string,
   placeholder: string,
   isLast: boolean,
+  isOne: boolean,
   data: Multi,
   handleInputFieldRemove: (
     type: MultiField, id: string,
@@ -18,14 +20,15 @@ type Props = {
   handleMultiFieldInput: (
     type: MultiField, newValue: string, id: string
   ) => void,
-}
+};
 
-export const MultipleField: FC<Props> = ({
+export const MultipleField: FC<Props> = memo(({
   field,
   type,
   placeholder,
   data,
   isLast,
+  isOne,
   handleInputFieldRemove,
   handleInputFieldAdd,
   handleMultiFieldInput
@@ -33,16 +36,16 @@ export const MultipleField: FC<Props> = ({
   const [value, setValue] = useState('');
   const [isCorrect, setIsCorrect] = useState(false);
 
-  const handleCurrentFieldChange = (
+  const handleCurrentFieldChange = useCallback((
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const inputedValue = event.target.value;
 
     setValue(inputedValue);
     setIsCorrect(false);
-  }
+  }, []);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     if (field === MultiField.EMAIL) {
       setIsCorrect(!EmailPattern.test(value));
     }
@@ -52,13 +55,21 @@ export const MultipleField: FC<Props> = ({
     }
 
     handleMultiFieldInput(field, value, data.id);
-  }
+  }, [value]);
+
+  const handleActionSelect = useCallback(() => {
+    if (!isLast && !isOne) {
+      handleInputFieldRemove(field, data.id)
+    } else {
+      handleInputFieldAdd(field);
+    }
+  }, [isLast, isOne]);
 
   useEffect(() => {
     if (data) {
       setValue(data.value);
     }
-  }, [data])
+  }, [data, isLast, isOne]);
 
   return (
     <>
@@ -73,20 +84,34 @@ export const MultipleField: FC<Props> = ({
           onInput={handleCurrentFieldChange}
           onBlur={handleBlur}
         />
-        {isLast
-          ? (<button
-              type="button"
-              className="button is-link"
-              onClick={() => handleInputFieldAdd(field)}
-            >
-              Add
-            </button>)
+        {(isLast && !isOne)
+          ? (<>
+              <button
+                type="button"
+                className="button is-danger"
+                onClick={() => handleInputFieldRemove(field, data.id)}
+              >
+                Remove
+              </button>
+
+              <button
+                type="button"
+                className="button is-link"
+                onClick={() => handleInputFieldAdd(field)}
+              >
+                Add
+              </button>
+            </>)
           : (<button
               type="button"
-              className="button is-danger"
-              onClick={() => handleInputFieldRemove(field, data.id)}
+              className={classNames(
+                'button',
+                {'is-danger': !isLast && !isOne,
+                  'is-link': isLast && isOne}
+              )}
+              onClick={handleActionSelect}
             >
-              Remove
+              {!isLast && !isOne ? 'Remove' : 'Add'}
             </button>)
         }
       </div>
@@ -96,6 +121,5 @@ export const MultipleField: FC<Props> = ({
               {MultiFieldErrorsMessages(field)}
             </span>}
     </>
-
   )
-}
+});

@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteContact, getContacts } from '../../API/contacts';
 import { ContactWithId } from '../../types/Contact';
@@ -12,7 +12,7 @@ export const PhoneBook: FC = () => {
   const [isError, setIsError] = useState(false);
   const [contacts, setContacts] = useState<ContactWithId[]>([]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setIsLoading(true);
 
     try {
@@ -24,9 +24,9 @@ export const PhoneBook: FC = () => {
     }
   
     setIsLoading(false);
-  }
+  }, []);
 
-  const handleContactDelete = async (contactId: number) => {
+  const handleContactDelete = useCallback(async (contactId: number) => {
 
     try {
       await deleteContact(contactId);
@@ -35,7 +35,7 @@ export const PhoneBook: FC = () => {
     } catch (error) {
       setIsError(true);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadData();
